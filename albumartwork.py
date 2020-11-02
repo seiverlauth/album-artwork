@@ -15,21 +15,31 @@ from essential_generators import DocumentGenerator
 
 
 '''
-The following paths are specific to my machine. The directory should
-be in whatever folder has all the .mp3 files to analyze.
+The following paths are specific to my machine (macOS). 
+Read the readme.md file for correct naming convensions of the file paths.
+'''
+org_musicfolder = '/Users/seiverlauth/Desktop/Orange/Music/music/'
+ref_musicfolder = '/Users/seiverlauth/Desktop/Orange/Music/Refused/'
+artfolder = '/Users/seiverlauth/Desktop/Orange/Music/artwork/PythonArtwork/'
+driver_path = '/Users/seiverlauth/Desktop/Orange/Python/driver/chromedriver'
+new_musicfolder = '/Users/seiverlauth/Desktop/Orange/Music/PythonAltered/'
+
+i = 0           # Should always be zero, starting index
+end = 2             # How ever many songs you would like analyzed...
+
+
+
+
+'''
+No need to edit further...
 '''
 
-os.chdir('/Users/seiverlauth/Desktop/Orange/Music/music/')
-files = glob.glob("/Users/seiverlauth/Desktop/Orange/Music/music/*.mp3")
-driver_path = '/Users/seiverlauth/Desktop/Orange/Python/driver/chromedriver' 
+os.chdir(org_musicfolder)
+files = glob.glob(org_musicfolder+"*.mp3")
 
 options = Options() 
 options.headless = True 
 
-'''
-gen - generates a bunch of random words, to be used later. It takes awhile
-so it was unnecessary to do it every loop
-'''
 gen = DocumentGenerator() 
 
 class File:
@@ -46,7 +56,7 @@ class File:
     
 def format_name(name,path):
     if len(name) < 10:
-        shutil.move(path,'/Users/seiverlauth/Desktop/Orange/Music/Refused/SHORTNAME_'+name.replace(' ','-')+".mp3")
+        shutil.move(path,ref_musicfolder+'SHORTNAME_'+name.replace(' ','-')+".mp3")
         return  name + ' did not satisfy search requirements'
     else:
         pass  
@@ -76,13 +86,13 @@ def search(url):
     
 def analyze(photo_url,path,name):
     if photo_url == '':
-        shutil.move(path,'/Users/seiverlauth/Desktop/Orange/Music/Refused/URL_TypeERROR_'+name.replace(' ','-')+".mp3")
+        shutil.move(path,ref_musicfolder+'URL_TypeERROR_'+name.replace(' ','-')+".mp3")
         return 'URL is blank...'
     elif len(photo_url) > 75:
-        shutil.move(path,'/Users/seiverlauth/Desktop/Orange/Music/Refused/URL_LenERROR'+name.replace(' ','-')+".mp3")
+        shutil.move(path,ref_musicfolder+'URL_LenERROR'+name.replace(' ','-')+".mp3")
         return 'URL is too long...'
     else:
-        urllib.request.urlretrieve(photo_url, '/Users/seiverlauth/Desktop/Orange/Music/artwork/PythonArtwork/'+name.replace(' ','-')+".jpg") 
+        urllib.request.urlretrieve(photo_url, artfolder+name.replace(' ','-')+".jpg") 
         return 'Saved!'
     
 def audio(path,name):
@@ -92,21 +102,18 @@ def audio(path,name):
             audio.add_tags()
         except:
             pass
-        audio.tags.add(APIC(mime='image/jpg',type=3,desc=u'Cover',data=open('/Users/seiverlauth/Desktop/Orange/Music/artwork/PythonArtwork/'+name.replace(' ','-')+".jpg",'rb').read()))
+        audio.tags.add(APIC(mime='image/jpg',type=3,desc=u'Cover',data=open(artfolder+name.replace(' ','-')+".jpg",'rb').read()))
         audio.save()
-        shutil.move(path,'/Users/seiverlauth/Desktop/Orange/Music/PythonAltered/'+name.replace(' ','-')+".mp3")
-        aspects = EasyID3('/Users/seiverlauth/Desktop/Orange/Music/PythonAltered/'+name.replace(' ','-')+".mp3")
+        shutil.move(path,new_musicfolder+name.replace(' ','-')+".mp3")
+        aspects = EasyID3(new_musicfolder+name.replace(' ','-')+".mp3")
         aspects['Artist'] = gen.word() + gen.word()
         aspects['Album'] = gen.word() + gen.word()
         aspects['Title'] = name
         aspects.save()
         return('Success!')
     except:
-        shutil.move(files[i],'/Users/seiverlauth/Desktop/Orange/Music/Refused/CORRUPT'+name.replace(' ','-')+".mp3")
+        shutil.move(files[i],ref_musicfolder+'CORRUPT'+name.replace(' ','-')+".mp3")
         return('This file is most liklely corrupt.')
-
-i = 0
-end = 5
 
 errors = 0
 nonimports = 0
@@ -162,7 +169,7 @@ while i < end:
         break
     except:
         print('There was an error...')
-        shutil.move(files[i],'/Users/seiverlauth/Desktop/Orange/Music/Refused/ERROR'+name.replace(' ','')+".mp3")
+        shutil.move(files[i],ref_musicfolder+'ERROR'+name.replace(' ','')+".mp3")
         errors += 1
     
     i += 1
