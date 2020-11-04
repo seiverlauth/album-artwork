@@ -9,25 +9,35 @@ the "Album Artwork" screensaver on my Mac.
 
 Basically, it takes the name of a .mp3 file, say:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**love-lies-louis-the-child-remix.mp3**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**lotus-eater-pluko-flip(1).mp3**
 
-and searches for that exact name on SoundCloud. Therefore, it only searches for songs with logical names. Files like:
+![](images/Before.png)
+
+and searches for that exact name on SoundCloud. It removes any dashes, underlines, and anything else that might prevent the correct result from showing. Because of
+this, it only searches for songs with logical names. Files like:
 
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**hir0.mp3** or **aaf83hge9g.mp3**
  
- will not be searched. Any errors encountered along the way will move the files to a refused folder for your review.
+ will not be searched.
  
- It then clicks the first search result and saves that image. So, if your search might bring up the name of a SoundCloud user instead of a song, it will return an error. 
- This is also why, sometimes, the album artwork that you were expecting and the album artwork that you got, will be different. Some more popular songs will
- show up before the song you were expecting, and therefore the images might get mixed up. This seems to be the only real issue with the code.
+ It then clicks the first search result and saves that image. Right now, and due to the ambiguity of some of the file names, there is no distinction between what is
+ the correct album artwork and what is not. But, assuming that the file name was specific enough, the file will be moved out of the original music folder and into a
+ new, modified one.
+ 
+ ![](images/After.png)
  
  After downloading the image, it then adds the ID3 data such as the album and artist. iTunes requires an album and artist name for the artwork to be included
- in the screensaver. For this, the code just attaches random words as fillers. The updated files are then moved to a new folder from where you can filter the 
- songs that you want in your library.
+ in the screensaver. For this, the code just attaches random words as fillers, see below.
+ 
+ ![](images/iTunes.png)
+ 
+
+ 
+ 
  
  &nbsp;-------
  
- # File Path Naming Conventions
+ ### File Path Naming Conventions
  
 **org_musicfolder** is the folder that holds all of your music files
 
