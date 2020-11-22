@@ -25,7 +25,7 @@ driver_path = '/Users/seiverlauth/Desktop/Orange/Python/driver/chromedriver'
 new_musicfolder = '/Users/seiverlauth/Desktop/Orange/Music/PythonAltered/'
 
 i = 0           # Should always be zero, starting index
-end = 2             # How ever many songs you would like analyzed...
+end = 71            # How ever many songs you would like analyzed...
 
 
 
@@ -147,6 +147,8 @@ while i < end:
         test_url = analyze(photo, path, name)
         time.sleep(1)
         if test_url != 'Saved!':
+            print(test_url)
+            print()
             i += 1
             nonimports += 1
             continue
@@ -156,6 +158,8 @@ while i < end:
         
         saved_file = audio(path,name)
         if saved_file != 'Success!':
+            print(saved_file)
+            print()
             i += 1
             errors += 1
             continue
